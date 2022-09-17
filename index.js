@@ -1,46 +1,18 @@
-import express from 'express';
+import express, { Router } from 'express';
+
 import Core from './classes/core.class.js';
-import User from './models/users.model.js';
+import MiddleWare from './classes/middleware.class.js';
 
-const core = new Core();
-const app = core.getApp();
+import UsersRoute from './routes/users.route.js';
 
-const router = express.Router();
-router.use('/user/:action', async (req, res, next) => {
-    var params = req.params && req.params !== null ? req.params : null;
+const core      = new Core();
+const router    = Router();
+const app       = core.getApp();
 
-    if (params.action === 'create') {
-        var query = req.query && req.query !== null ? req.query : null;
+app.use(express.json());
+app.use(new MiddleWare().logger);
 
-        var email = () => query.email ? query.email : null;
-        var password = () => query.password ? query.password : null;
-        var name = () => query.name ? query.name : null;
-
-        if (email() !== null && password() !== null && name() !== null) {
-            var task = await new User().createUser(email(), password(), name());
-            res.status(200);
-            res.send(JSON.stringify(task));
-        } else {
-            res.status(403);
-            res.send(JSON.stringify({ error: true, message: `Error, query parameters weren't properly set - use key(s): name, email, password & URLencode() required ...` }));
-        }
-    }
-
-    if (params.action === 'fetch') {
-        var query = req.query && req.query !== null ? req.query : null;
-
-        var email = () => query.email ? query.email : null;
-
-        if (email() !== null) {
-            var task = await new User().getUser(email());
-            res.status(200);
-            res.send(JSON.stringify(task));
-        } else {
-            res.status(403);
-            res.send(JSON.stringify({ error: true, message: `Error, query parameters weren't properly set - use key(s): email & URLencode() required ...` }));
-        }
-    }
-});
+router.use('/users', UsersRoute);
 
 app.use('/api', router);
 

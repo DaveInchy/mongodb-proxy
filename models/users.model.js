@@ -1,6 +1,6 @@
-import Database from "../classes/db.class.js";
+import MangoData from "../classes/db.class.js";
 
-export default class User extends Database
+export default class Users extends MangoData
 {
     metadata;
     authdata;

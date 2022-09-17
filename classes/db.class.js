@@ -1,20 +1,34 @@
 import { MongoClient } from "mongodb";
-
-export default class Database
+import dotenv from 'dotenv';
+export default class MangoData
 {
     client;
     database;
     collection;
 
-    cluster;
-    query;
-    user;
+    mdb = ({
+        cluster: new String(),
+        query: new String(),
+        user: ({
+            name: new String(),
+            pass: new String(),
+        }),
+    })
 
     constructor()
     {
-        this.user = { name: process.env.USERNAME || 'dave', password: process.env.PASSWORD || '' };
-        this.query = 'test?retryWrites=true&w=majority';
-        this.cluster = 'clustercore.j93lqxm.mongodb.net';
+        dotenv.config();
+
+        const { env } = process;
+
+        this.mdb = ({
+            cluster: env.MDB_CLUSTER,
+            query: env.MDB_QUERY,
+            user: ({
+                name: env.MDB_USER,
+                pass: env.MDB_PASS,
+            }),
+        });
 
         this.client = this.connect();
         this.database = this.setDatabase();
@@ -22,9 +36,9 @@ export default class Database
         return this;
     }
 
-    connect(string = `mongodb+srv://${this.user.name}:${this.user.password}@${this.cluster}/${this.query}`)
+    connect(uri = `mongodb+srv://${this.mdb.user.name}:${this.mdb.user.pass}@${this.mdb.cluster}/${this.mdb.query}`)
     {
-        return new MongoClient(string);
+        return new MongoClient(uri);
     }
 
     async disconnect(force = true)
