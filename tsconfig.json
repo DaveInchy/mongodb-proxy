@@ -1,0 +1,86 @@
+{
+    "compilerOptions": {
+
+
+        "target": "ES2016",
+        "lib": [
+            "esNext",
+            "es2022",
+            "es2016"
+        ],
+
+        "experimentalDecorators": true,
+
+
+
+
+
+
+        "useDefineForClassFields": true,
+        "moduleDetection": "auto",
+
+        "module": "commonjs",
+        "rootDir": "./src/",
+        "moduleResolution": "node",
+        "baseUrl": "./",
+        "typeRoots": [
+            "mongodb",
+            "express"
+        ],
+        "types": [
+            "node",
+            "@types/express"
+        ],
+        "allowUmdGlobalAccess": false,
+
+        "resolveJsonModule": true,
+
+
+        "allowJs": false,
+        "checkJs": false,
+
+        "outDir": "./api/",
+        "removeComments": true,
+        "noEmit": false,
+        "importHelpers": false,
+        "noImplicitUseStrict": false,
+
+        "downlevelIteration": true,
+        "sourceRoot": "./src",
+
+        "inlineSourceMap": true,
+        "inlineSources": true,
+
+        "noEmitOnError": false,
+        "preserveConstEnums": true,
+
+        "isolatedModules": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "preserveSymlinks": true,
+        "forceConsistentCasingInFileNames": true,
+
+        "strict": true,
+        "noImplicitAny": false,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "strictBindCallApply": true,
+        "strictPropertyInitialization": true,
+        "noImplicitThis": true,
+        "useUnknownInCatchVariables": true,
+        "alwaysStrict": false,
+        "noUnusedLocals": false,
+        "noUnusedParameters": true,
+        "exactOptionalPropertyTypes": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUncheckedIndexedAccess": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "allowUnusedLabels": true,
+        "allowUnreachableCode": true,
+
+        "skipDefaultLibCheck": true,
+        "skipLibCheck": true
+    }
+}

@@ -1,5 +1,7 @@
+// @ts-nocheck
 import { MongoClient } from "mongodb";
 import dotenv from 'dotenv';
+
 export default class MangoData
 {
     client;
@@ -36,6 +38,8 @@ export default class MangoData
         return this;
     }
 
+    // using mongodb.com atlas edge network for document based data.
+    // if using a self-hosted mongodb i recommend using mongoose node library.
     connect(uri = `mongodb+srv://${this.mdb.user.name}:${this.mdb.user.pass}@${this.mdb.cluster}/${this.mdb.query}`)
     {
         return new MongoClient(uri);
@@ -43,6 +47,7 @@ export default class MangoData
 
     async disconnect(force = true)
     {
+        // @ts-ignore
         return await this.client.close(force) ? true : false;
     }
 
