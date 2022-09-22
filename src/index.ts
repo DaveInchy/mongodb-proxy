@@ -6,35 +6,33 @@ import Core from './classes/core.class';
 import MiddleWare from './classes/middleware.class';
 
 // routes
-import usersRoute from './routes/users.route';
+import Posts from './routes/posts.route';
+import CDN from './routes/cdn.route';
 
 // utils
 import { getFileSync } from './utils';
-import { readFileSync } from 'fs';
 
 // setup
 const core: Core = new Core();
-const api: Router = Router();
-const www: Router = Router();
 const app: express.Express = core.getApp();
+const api: Router = Router();
+const cdn: Router = Router();
 
 // middleware
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
-// setup routes
-api.use('/users', usersRoute);
+// setup routes for API
+api.use('/:collection', Posts);
 
-// downloadable content handling
-www.get('/:file', (req, res) => {
-    const { params } = req;
-    res.status(200);
-    res.send(readFileSync(__dirname + `./../www/${params.file}`));
-});
+// setup routes for static files.
+cdn.get('/static', CDN);
 
-app.use('/cdn', www)
+// setup the app uri's
+app.use('/cdn', cdn)
 app.use('/api', api);
 
+// middleware
 app.use(new MiddleWare().logger);
 
 core.createServer(app);
