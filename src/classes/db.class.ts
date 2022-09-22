@@ -1,21 +1,14 @@
 // @ts-nocheck
-import { MongoClient } from "mongodb";
+import { Collection, Db, Document, MongoClient } from "mongodb";
 import dotenv from 'dotenv';
 
 export default class MangoData
 {
-    client;
-    database;
-    collection;
+    public client: MongoClient;
+    public database: Db;
+    public collection: Collection<Document>;
 
-    mdb = ({
-        cluster: new String(),
-        query: new String(),
-        user: ({
-            name: new String(),
-            pass: new String(),
-        }),
-    })
+    private mdb: any;
 
     constructor()
     {
@@ -35,31 +28,32 @@ export default class MangoData
         this.client = this.connect();
         this.database = this.setDatabase();
         this.collection = this.setCollection();
+
         return this;
     }
 
     // using mongodb.com atlas edge network for document based data.
     // if using a self-hosted mongodb i recommend using mongoose node library.
-    connect(uri = `mongodb+srv://${this.mdb.user.name}:${this.mdb.user.pass}@${this.mdb.cluster}/${this.mdb.query}`)
+    connect(uri: string = `mongodb+srv://${this.mdb.user.name}:${this.mdb.user.pass}@${this.mdb.cluster}/${this.mdb.query}`)
     {
         return new MongoClient(uri);
     }
 
-    async disconnect(force = true)
+    async disconnect(force: boolean = true)
     {
         // @ts-ignore
         return await this.client.close(force) ? true : false;
     }
 
-    setDatabase(name = 'global')
+    setDatabase(name: string = 'global')
     {
         this.database = this.client.db(name);
         return this.database
     }
 
-    setCollection(name = 'users')
+    setCollection(name: string = 'posts')
     {
-        this.collection = this.database.collection(name);
+        this.collection = this.database.collection<Document>(name);
         return this.collection;
     }
 

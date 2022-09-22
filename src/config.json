@@ -1,8 +1,30 @@
 {
+    "database": "global",
     "hostname": "localhost",
     "port": {
         "ssl": "8443",
         "default": "8080"
     },
-    "ssl": "false"
+    "ssl": "false",
+    "endpoints": [
+        {
+            "uri": "/cdn",
+            "type": "file",
+            "model": "cdn",
+            "refs": [
+                "/:file"
+            ]
+        },
+        {
+            "uri": "/api",
+            "type": "posts",
+            "model": "crud",
+            "refs": [
+                "/create/:id",
+                "/read/:id",
+                "/update/:id",
+                "/delete/:id"
+            ]
+        }
+    ]
 }
