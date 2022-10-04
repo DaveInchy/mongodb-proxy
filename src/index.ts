@@ -6,7 +6,7 @@ import Core from './classes/core.class';
 import MiddleWare from './classes/middleware.class';
 
 // routes
-import Posts from './routes/posts.route';
+import CRUD from './routes/crud.route';
 import CDN from './routes/cdn.route';
 
 // utils
@@ -21,19 +21,17 @@ const cdn: Router = Router();
 // middleware
 app.use(cors());
 app.use(express.json());
+app.use(MiddleWare.headers);
 
 // setup routes for API
-api.use('/:collection', Posts);
-
-// setup routes for static files.
-cdn.get('/static', CDN);
+api.use('/mongodb-proxy', CRUD);
 
 // setup the app uri's
 app.use('/cdn', cdn)
 app.use('/api', api);
 
 // middleware
-app.use(new MiddleWare().logger);
+app.use(MiddleWare.logger);
 
 core.createServer(app);
 

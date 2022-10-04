@@ -9,7 +9,7 @@ const router: Router = Router();
 router.use('/:file', (req, res) => {
     const { params } = req;
     res.status(200);
-    res.send(readFileSync(__dirname + `./../static/${params['file']}`));
+    res.send(readFileSync(__dirname + `./../public/${params['file']}`));
 });
 
 export default router;

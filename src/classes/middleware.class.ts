@@ -2,16 +2,28 @@
 import { Request, Response } from 'express';
 import MangoData from '../classes/db.class';
 
-export default class MiddleWare
+export class MiddleWare
 {
-    logger = (req: Request, res: Response, next: Function) => {
+    static logger = (req: Request, res: Response, next: Function) => {
         const { params, body, query, url } = req;
         const string = `[request] ${url} => ${JSON.stringify(params)}`;
         console.log(string);
         next();
     }
 
-    authenticate = (req: Request, res: Response, next: Function) => {
+    static headers = (req: Request, res: Response, next: Function) => {
+        res.setHeader('Access-Control-Allow-Header', '*');
+        res.setHeader('Access-Control-Allow-Origin', '*');
+
+        res.setHeader('Accept', 'application/json');
+        res.setHeader('Content-Type', 'application/json');
+
+        res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
+
+        next();
+    }
+
+    static authenticate = (req: Request, res: Response, next: Function) => {
         const { params, body, query, url, method, headers } = req;
         console.log(`[authentication] trying to authenticate the request`);
         if (method === 'POST' && body)
@@ -27,3 +39,5 @@ export default class MiddleWare
         }
     }
 }
+
+export default { logger: MiddleWare.logger, headers: MiddleWare.headers, auth: MiddleWare.authenticate }

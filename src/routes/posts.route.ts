@@ -1,10 +1,8 @@
-import express, { Express, Router } from 'express';
-import MiddleWare from 'src/classes/middleware.class';
+import { Router } from 'express';
 import MongoCRUD from 'src/classes/crud.class';
-import Posts from 'src/models/posts.model';
 
 const router: Router = Router();
-const crud = new Posts();
+const crud = new MongoCRUD('global', 'posts');
 
 router.use('/create', crud.create);
 router.use('/read/:id', crud.read);
