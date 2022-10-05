@@ -82,5 +82,8 @@
 
         "skipDefaultLibCheck": true,
         "skipLibCheck": true
-    }
+    },
+    "exclude": [
+        "tsconfig.json"
+    ]
 }

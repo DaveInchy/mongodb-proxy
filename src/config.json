@@ -1,9 +1,0 @@
-{
-    "database": "global",
-    "hostname": "localhost",
-    "port": {
-        "ssl": "8443",
-        "default": "8080"
-    },
-    "ssl": "false"
-}

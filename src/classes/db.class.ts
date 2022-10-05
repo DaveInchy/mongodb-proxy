@@ -2,7 +2,7 @@
 import { Collection, Db, Document, MongoClient } from "mongodb";
 import dotenv from 'dotenv';
 
-export default class MangoData
+export default class MongoData
 {
     public client: MongoClient;
     public database: Db;
@@ -10,11 +10,17 @@ export default class MangoData
 
     private mdb: any;
 
+    public package_config;
+    public server_config;
+
     constructor()
     {
         dotenv.config();
 
         const { env } = process;
+
+        this.package_config = require('../../package.json');
+        this.server_config = require('../../mongodb-proxy.config.json');
 
         this.mdb = ({
             cluster: env.MDB_CLUSTER,
@@ -45,7 +51,7 @@ export default class MangoData
         return await this.client.close(force) ? true : false;
     }
 
-    setDatabase(name: string = 'global')
+    setDatabase(name: string = 'master')
     {
         this.database = this.client.db(name);
         return this.database

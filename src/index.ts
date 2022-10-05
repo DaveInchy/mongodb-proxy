@@ -2,37 +2,23 @@ import express, { Router } from 'express';
 import cors from 'cors';
 
 // classes
-import Core from './classes/core.class';
-import MiddleWare from './classes/middleware.class';
+import Server from './classes/server.class';
 
 // routes
-import CRUD from './routes/crud.route';
-import CDN from './routes/cdn.route';
-
-// utils
-import { getFileSync } from './utils';
+import DataBase from './routes/crud.route';
+import Static from './routes/cdn.route';
 
 // setup
-const core: Core = new Core();
-const app: express.Express = core.getApp();
-const api: Router = Router();
-const cdn: Router = Router();
+const server: Server = new Server();
+const routes: Array<[string, Router]> = [];
 
-// middleware
-app.use(cors());
-app.use(express.json());
-app.use(MiddleWare.headers);
+server.loadMiddleware();
 
-// setup routes for API
-api.use('/mongodb-proxy', CRUD);
+routes.push(['/api/database', DataBase]);
+routes.push(['/cdn/public', Static]);
 
-// setup the app uri's
-app.use('/cdn', cdn)
-app.use('/api', api);
+server.loadRoutes(routes);
 
-// middleware
-app.use(MiddleWare.logger);
+server.loadServer();
 
-core.createServer(app);
-
-export default app;
+export default server.app;

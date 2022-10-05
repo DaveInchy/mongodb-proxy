@@ -1,12 +1,12 @@
 {
   "name": "mongodb-proxy",
-  "version": "0.2.1",
-  "description": "",
+  "version": "0.2.2",
+  "description": "a REST api that works as a proxy for using MongoDB through HTTP endpoints",
   "main": "/api/index.js",
   "scripts": {
     "start": "ts-node ./src/index.ts",
     "dev": "nodemon ./src/index.ts",
-    "build": "tsc -p ./tsconfig.json && nodemon /api/index.js",
+    "build": "tsc -p ./tsconfig.json",
     "watch:ts": "tsc -p ./tsconfig.json --watch",
     "watch:js": "nodemon ./api/index.js"
   },
@@ -27,5 +27,5 @@
   },
   "private": "true",
   "author": "Dave Inchy <dave@doonline.nl>",
-  "license": "ISC"
+  "license": "MIT"
 }
