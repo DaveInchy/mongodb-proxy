@@ -23,7 +23,7 @@ export default class ProxyServer
         this.app = express();
 
         this.package_config = require('../../package.json');
-        this.server_config = require('../../mongodb-proxy.config.json');
+        this.server_config = require('../../proxy.config.js');
 
         this.port = { 'HTTP': process.env.PORT || this.server_config.port.http || 8080, 'HTTPS': process.env.PORT_SSL || this.server_config.port.https || 8443 }
         this.server = { 'HTTP': undefined, 'HTTPS': undefined };
@@ -70,10 +70,10 @@ export default class ProxyServer
             this.setServer(true, https.createServer(app, {}).listen(this.port['HTTPS']));
 
             console.log(`[${this.package_config.name}]`, `listening with port ${this.port['HTTP']} \& port ${this.port['HTTPS']} \@ https://localhost:${this.port['HTTP']}/\n`);
-            
+
             console.info(`[${this.package_config.name}]`, `You can configure the proxy server by editing 'src/config.json' and adding an '.env' file to the root of the project.`);
             console.info(`[${this.package_config.name}]`, `More info at https://github.com/daveinchy/mongodb-proxy/README.md on how to set up your mongodb connection and setup + run 'mongodb-proxy'.\n`);
-            
+
             this.app = app;
         }
         return app;

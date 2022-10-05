@@ -1,11 +1,13 @@
 // @ts-nocheck
 import { Request, Response } from 'express';
 
+const config = require('../../proxy.config.js');
+const config_pkg = require('../../package.json');
 export class MiddleWare
 {
     static logger = (req: Request, res: Response, next: Function) => {
         const { params, body, query, url } = req;
-        console.log(`[mongodb-proxy]`, `${url} => ${JSON.stringify(body)}`);
+        console.log(`[${config_pkg.name}]`, `${url} => ${JSON.stringify(body)}`);
         next();
     }
 

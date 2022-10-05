@@ -5,7 +5,7 @@ import MongoAPI from '../classes/api.class';
 const router: Router = Router();
 
 router.use('/:collection/:action/:id', async (req: Request, res: Response) => {
-        
+
     var error: string | undefined = undefined;
     let result = {};
 
@@ -13,8 +13,8 @@ router.use('/:collection/:action/:id', async (req: Request, res: Response) => {
 
         const { params } = req;
         const { collection, action, id } = params;
-    
-        var config = require('../../mongodb-proxy.config.json');
+
+        var config = require('../../proxy.config.js');
         var config_pkg = require('../../package.json');
 
         var api = new MongoAPI(
@@ -23,20 +23,20 @@ router.use('/:collection/:action/:id', async (req: Request, res: Response) => {
         );
 
         var col = api.collection;
-    
+
         if (collection !== null && collection !== undefined && collection !== "") {
             if (action !== null && action !== undefined && action !== "") {
                 if (id !== null && id !== undefined && id !== "") {
-    
+
                     let filter = action!=='create'? { '_id': new ObjectId(id) } : {};
 
                     switch (action) {
-    
+
                         case `read`:
                             result = await col.find(filter).toArray();
                             if (!result) return;
                             break;
-    
+
                         case `update`:
                             await col.findOneAndUpdate(filter, {
                                 $set: {...req.body}
@@ -49,7 +49,7 @@ router.use('/:collection/:action/:id', async (req: Request, res: Response) => {
                                 throw new Error(err);
                             });
                             break;
-    
+
                         case `delete`:
                             await col.findOneAndDelete(filter).then( data => {
                                 if (!data) return;
@@ -60,7 +60,7 @@ router.use('/:collection/:action/:id', async (req: Request, res: Response) => {
                                 throw new Error(err);
                             });
                             break;
-    
+
                         case `create`:
                             let update = { ...filter, ...req.body };
                             await col.insertOne(update).then( data => {
@@ -71,11 +71,11 @@ router.use('/:collection/:action/:id', async (req: Request, res: Response) => {
                                 throw new Error(err);
                             });
                             break;
-    
+
                         default:
                             error = `Invalid action parameter in request.`;
                             console.error(`[${config_pkg.name}]`, `${action} => ${error}`);
-                            throw new Error(error); 
+                            throw new Error(error);
                             break;
                     }
                 }
