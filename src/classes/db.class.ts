@@ -20,7 +20,7 @@ export default class MongoData
         const { env } = process;
 
         this.package_config = require('../../package.json');
-        this.server_config = require('../../proxy.config.js');
+        this.server_config = require('../../config.json');
 
         this.mdb = ({
             cluster: env.MDB_CLUSTER,

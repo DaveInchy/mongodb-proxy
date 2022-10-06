@@ -23,7 +23,7 @@ export default class ProxyServer
         this.app = express();
 
         this.package_config = require('../../package.json');
-        this.server_config = require('../../proxy.config.js');
+        this.server_config = require('../../config.json');
 
         this.port = { 'HTTP': process.env.PORT || this.server_config.port.http || 8080, 'HTTPS': process.env.PORT_SSL || this.server_config.port.https || 8443 }
         this.server = { 'HTTP': undefined, 'HTTPS': undefined };

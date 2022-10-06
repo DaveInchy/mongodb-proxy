@@ -85,7 +85,6 @@
     },
     "exclude": [
         "./tsconfig.json",
-        "./proxy.config.js",
         "./api/**/*",
         "./public/**/*",
         "./docs/**/*"

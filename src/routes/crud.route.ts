@@ -2,6 +2,9 @@ import { Request, Response, Router } from 'express';
 import { Document, MongoClient, ObjectId, ReturnDocument } from 'mongodb';
 import MongoAPI from '../classes/api.class';
 
+var config = require('../../config.json');
+var config_pkg = require('../../package.json');
+
 const router: Router = Router();
 
 router.use('/:collection/:action/:id', async (req: Request, res: Response) => {
@@ -13,9 +16,6 @@ router.use('/:collection/:action/:id', async (req: Request, res: Response) => {
 
         const { params } = req;
         const { collection, action, id } = params;
-
-        var config = require('../../proxy.config.js');
-        var config_pkg = require('../../package.json');
 
         var api = new MongoAPI(
             decodeURI(config.database.toString()),

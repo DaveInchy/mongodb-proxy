@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { Request, Response } from 'express';
 
-const config = require('../../proxy.config.js');
+const config = require('../../config.json');
 const config_pkg = require('../../package.json');
 export class MiddleWare
 {

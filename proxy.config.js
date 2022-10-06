@@ -1,8 +1,0 @@
-export default {
-    "database": "master",
-    "hostname": "localhost",
-    "port": {
-        "https": "8443",
-        "http": "8080"
-    }
-}
