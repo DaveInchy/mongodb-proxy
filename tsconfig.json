@@ -80,8 +80,8 @@
         "allowUnusedLabels": true,
         "allowUnreachableCode": true,
 
-        "skipDefaultLibCheck": true,
-        "skipLibCheck": true
+        "skipDefaultLibCheck": false,
+        "skipLibCheck": false
     },
     "exclude": [
         "./tsconfig.json",
