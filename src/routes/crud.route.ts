@@ -1,11 +1,14 @@
 import { Request, Response, Router } from 'express';
 import { Document, MongoClient, ObjectId, ReturnDocument } from 'mongodb';
+import MiddleWare from '../classes/middleware.class';
 import MongoAPI from '../classes/api.class';
 
 var config = require('../../config.json');
 var config_pkg = require('../../package.json');
 
 const router: Router = Router();
+
+router.use(MiddleWare.auth);
 
 router.use('/:collection/:action/:id', async (req: Request, res: Response) => {
 
