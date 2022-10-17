@@ -31,7 +31,7 @@ router.use('/:collection/:action/:id', async (req: Request, res: Response) => {
             if (action !== null && action !== undefined && action !== "") {
                 if (id !== null && id !== undefined && id !== "") {
 
-                    let filter = action!=='create'? { '_id': new ObjectId(id) } : {};
+                    let filter = action !== 'create' && action !== 'list' ? { '_id': new ObjectId(id) } : {};
 
                     switch (action) {
 
@@ -73,6 +73,13 @@ router.use('/:collection/:action/:id', async (req: Request, res: Response) => {
                                 console.error(`[${config_pkg.name}]`, `${action} => ${err}`);
                                 throw new Error(err);
                             });
+                            break;
+
+                        case `list`:
+                            result = await col.find(filter, {
+                                "allowPartialResults": false,
+                            }).toArray();
+                            if (!result) return;
                             break;
 
                         default:

@@ -1,11 +1,20 @@
 {
     "rewrites": [
         {
+            "source": "/api/database/(.*)",
+            "destination": "./api/index.js"
+        },
+        {
+            "source": "/api/auth/(.*)",
+            "destination": "./api/index.js"
+        },
+        {
             "source": "/(.*)",
-            "destination": "/api/index.js"
+            "destination": "./api/index.js"
         }
     ],
     "installCommand": "npm run setup",
     "buildCommand": "npm run build",
+    "startCommand": "node .",
     "outputDirectory": "api/"
 }

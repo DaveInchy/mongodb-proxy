@@ -5,7 +5,7 @@
   "main": "/api/index.js",
   "scripts": {
     "setup": "npm install --save --include=dev",
-    "start": "ts-node ./src/index.ts",
+    "start": "node .",
     "dev": "nodemon ./src/index.ts",
     "build": "tsc -p ./tsconfig.json",
     "watch:ts": "tsc -p ./tsconfig.json --watch",

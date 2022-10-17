@@ -53,12 +53,7 @@ router.use('/signin/:username/:password', (req: Request, res: Response) => {
     results(params).then(result => {
         res.status(200);
         res.json({
-            // 'user': {
-            //     ...params,
-            // },
-            'result': {
-                ...result
-            }
+            ...result,
         });
     });
 });
@@ -70,6 +65,12 @@ router.use('/signup/:username/:email/:password', (req: Request, res: Response) =
 
         var hasParams = username && email && password ? true : false;
         if (!hasParams) throw new Error("Some of the parameters are not defined...");
+
+        const user = {
+            name: username ? decodeURI(username?.toString()) : "",
+            pass: password ? decodeURI(password?.toString()) : "",
+            email: email ? decodeURI(email?.toString()) : "",
+        }
 
         const createUser = async (_username, _password, _email): Promise<any | InsertOneResult<Document>> => {
             // check if there already users in the database with same email or same username,
@@ -115,7 +116,7 @@ router.use('/signup/:username/:email/:password', (req: Request, res: Response) =
             }
             return { error: { message: "User already exists..." } };
         }
-        createUser(username, password, email).then(doc => {
+        createUser(user.name, user.pass, user.email).then(doc => {
             res.status(200).json(doc);
         });
     } catch(e) {
