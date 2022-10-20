@@ -15,6 +15,5 @@
     ],
     "installCommand": "npm run setup",
     "buildCommand": "npm run build",
-    "startCommand": "node .",
-    "outputDirectory": "api/"
+    "outputDirectory": "./api"
 }
