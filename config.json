@@ -1,6 +1,6 @@
 {
-    "database": "master",
-    "hostname": "localhost",
+    "database": "blacksails",
+    "hostname": "0.0.0.0",
     "port": {
         "https": "8443",
         "http": "8080"
