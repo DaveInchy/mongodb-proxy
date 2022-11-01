@@ -58,7 +58,7 @@ export default class ProxyServer
 
         this.app = app;
 
-        return app;
+        return this.app;
     }
 
     loadServer()

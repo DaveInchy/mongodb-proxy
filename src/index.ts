@@ -12,13 +12,11 @@ import Auth from './routes/auth.route';
 const server: Server = new Server();
 const routes: Array<[string, Router]> = [];
 
-server.loadMiddleware();
-
 routes.push(['/api/database', Database]);
 routes.push(['/api/auth', Auth]);
-//routes.push(['/', Website]);
 
+server.loadMiddleware();
 server.loadRoutes(routes);
 server.loadServer();
 
-export default server.getApp();
+export default server.getServer(false) ;
