@@ -4,8 +4,5 @@
             "source": "/api/(.*)",
             "destination": "/api/"
         }
-    ],
-    "installCommand": "npm run setup",
-    "buildCommand": "npm run build",
-    "outputDirectory": "."
+    ]
 }

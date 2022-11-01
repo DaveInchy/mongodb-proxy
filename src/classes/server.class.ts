@@ -52,7 +52,7 @@ export default class ProxyServer
 
         // setup middleware
         app.use(cors());
-        app.use(express.json());
+        //app.use(express.json());
         app.use(MiddleWare.headers);
         app.use(MiddleWare.logger);
 
@@ -76,7 +76,7 @@ export default class ProxyServer
 
             this.app = app;
         }
-        return app;
+        return this.app;
     }
 
     setServer(secure: boolean = true, server: http.Server | https.Server) {
