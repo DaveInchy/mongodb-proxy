@@ -2,10 +2,9 @@
     "rewrites": [
         {
             "source": "/api/(.*)",
-            "destination": "./api/index.js"
+            "destination": "/api/"
         }
     ],
     "installCommand": "npm run setup",
-    "buildCommand": "npm run build",
-    "outputDirectory": "./api"
+    "buildCommand": "npm run build"
 }
