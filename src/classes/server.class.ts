@@ -52,9 +52,9 @@ export default class ProxyServer
 
         // setup middleware
         app.use(cors());
-        //app.use(express.json());
-        app.use(MiddleWare.headers);
-        app.use(MiddleWare.logger);
+        app.use(express.json());
+        app.use(MiddleWare.headers());
+        app.use(MiddleWare.logger());
 
         this.app = app;
 

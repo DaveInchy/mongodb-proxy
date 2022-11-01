@@ -21,4 +21,4 @@ routes.push(['/api/auth', Auth]);
 server.loadRoutes(routes);
 server.loadServer();
 
-export default server.app;
+export default server.getApp();
