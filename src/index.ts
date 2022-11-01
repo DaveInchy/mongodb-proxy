@@ -16,7 +16,7 @@ server.loadMiddleware();
 
 routes.push(['/api/database', Database]);
 routes.push(['/api/auth', Auth]);
-routes.push(['/', Website]);
+//routes.push(['/', Website]);
 
 server.loadRoutes(routes);
 server.loadServer();
