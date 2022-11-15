@@ -13,10 +13,13 @@ const server: Server = new Server();
 const routes: Array<[string, Router]> = [];
 
 routes.push(['/api/database', Database]);
+routes.push(['/api/static', Website]);
 routes.push(['/api/auth', Auth]);
 
 server.loadMiddleware();
 server.loadRoutes(routes);
 server.loadServer();
 
-export default server.getServer(false) ;
+const app = server.getApp();
+
+export default app;
