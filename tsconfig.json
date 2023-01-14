@@ -19,7 +19,7 @@
         "useDefineForClassFields": true,
         "moduleDetection": "auto",
 
-        "module": "commonjs",
+        "module": "CommonJS",
         "rootDir": "./src/",
         "moduleResolution": "node",
         "baseUrl": "./",
@@ -28,7 +28,7 @@
             "express"
         ],
         "types": [
-            "node",
+            "@types/node",
             "@types/express"
         ],
         "allowUmdGlobalAccess": false,
