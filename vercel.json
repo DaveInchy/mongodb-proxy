@@ -1,16 +1,8 @@
 {
     "rewrites": [
         {
-            "source": "/api/database/(.*)",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/auth/(.*)",
-            "destination": "/api"
-        },
-        {
             "source": "/api/(.*)",
-            "destination": "/api"
+            "destination": "/api/"
         }
     ]
 }

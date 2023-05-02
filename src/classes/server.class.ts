@@ -1,12 +1,8 @@
-// @ts-nocheck
-
-import express, { Router } from 'express';
-import http from 'http';
-import https from 'https';
-import cors from 'cors';
-
-// classes
-import MiddleWare from './middleware.class';
+import MiddleWare from "./middleware.class";
+import cors from "cors";
+import express, { Router } from "express";
+import http from "http";
+import https from "https";
 
 export default class ProxyServer
 {
@@ -25,7 +21,7 @@ export default class ProxyServer
         this.package_config = require('../../package.json');
         this.server_config = require('../../config.json');
 
-        this.port = { 'HTTP': process.env.PORT || this.server_config.port.http || 8080, 'HTTPS': process.env.PORT_SSL || this.server_config.port.https || 8443 }
+        this.port = { 'HTTP': process.env['PORT'] || this.server_config.port.http || 8080, 'HTTPS': process.env['PORT_SSL'] || this.server_config.port.https || 8443 }
         this.server = { 'HTTP': undefined, 'HTTPS': undefined };
 
         console.log(`[${this.package_config.name}]`, `initializing the MongoDB Proxy server, this may take some time ...\n`)
@@ -37,7 +33,7 @@ export default class ProxyServer
         const app: express.Express = this.getApp();
 
         // loading all routers
-        router.forEach(( value, key ) => {
+        router.forEach(( value ) => {
             app.use(value[0], value[1]);
             console.log(`[${this.package_config.name}]`, `added new router to the '${value[0]}' endpoint. \n`)
         });
@@ -51,8 +47,8 @@ export default class ProxyServer
         const app: express.Express = this.getApp();
 
         // setup middleware
-        app.use(cors());
-        app.use(express.json());
+        // app.use(cors());
+        // app.use(express.json());
         app.use(MiddleWare.headers);
         app.use(MiddleWare.logger);
 
@@ -67,7 +63,7 @@ export default class ProxyServer
         if (app !== null && app !== undefined) {
 
             this.setServer(false, http.createServer(app).listen(this.port['HTTP']));
-            this.setServer(true, https.createServer(app, {}).listen(this.port['HTTPS']));
+            this.setServer(true, https.createServer(app).listen(this.port['HTTPS']));
 
             console.log(`[${this.package_config.name}]`, `listening with port ${this.port['HTTP']} \& port ${this.port['HTTPS']} \@ https://localhost:${this.port['HTTP']}/\n`);
 

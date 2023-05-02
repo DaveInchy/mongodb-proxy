@@ -31,7 +31,7 @@
             "@types/node",
             "@types/express"
         ],
-        "allowUmdGlobalAccess": false,
+        "allowUmdGlobalAccess": true,
 
         "resolveJsonModule": true,
 
@@ -43,10 +43,10 @@
         "removeComments": true,
         "noEmit": false,
         "importHelpers": false,
-        "noImplicitUseStrict": false,
+        "noImplicitUseStrict": true,
 
         "downlevelIteration": true,
-        "sourceRoot": "./src",
+        "sourceRoot": "./src/",
 
         "inlineSourceMap": true,
         "inlineSources": true,
