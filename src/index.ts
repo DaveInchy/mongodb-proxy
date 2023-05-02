@@ -1,24 +1,18 @@
 import Auth from "./routes/auth.route";
 import Database from "./routes/crud.route";
+import Files from "./routes/files.route";
 import Server from "./classes/server.class";
-import Website from "./routes/public.route";
 import { Router } from "express";
 
-// classes
-
-// routes
-
-// setup
 const server: Server = new Server();
-const routes: Array<[string, Router]> = [];
+const routes: Array<[ string, Router ] | { endpoint: string, handler: Router }> = [];
+
+routes.push(['/static/', Files]);
+routes.push(['/api/database', Database]);
+routes.push(['/api/auth', Auth]);
 
 server.loadMiddleware();
-
-routes.push(['/api/database', Database]);
-// routes.push(['/api/static', Website]);
-routes.push(['/api/auth', Auth]);
 server.loadRoutes(routes);
-
 server.loadServer();
 
 const app = server.getApp();

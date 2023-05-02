@@ -1,7 +1,7 @@
 {
   "name": "mongodb-proxy",
-  "version": "23.01.14",
-  "description": "a REST api that works as a proxy for using MongoDB through HTTP endpoints with authentication included.",
+  "version": "23.5.2",
+  "description": "a REST api that works as a proxy for using MongoDB through HTTP REST-API endpoints with authentication included.",
   "main": "api/index.js",
   "scripts": {
     "setup": "npm install --save --include=dev",
@@ -9,7 +9,9 @@
     "dev": "nodemon ./src/index.ts",
     "build": "tsc -p ./tsconfig.json",
     "watch": "tsc -p ./tsconfig.json --watch",
-    "api": "nodemon ./api/index.js"
+    "api": "nodemon ./api/index.js",
+    "deploy": "vercel --prod || npx vercel --prod",
+    "preview": "vercel || npx vercel; echo \"You can find a preview build at https://mongodb-daveinchy.vercel.app ...\";"
   },
   "dependencies": {
     "cors": "2.8.5",
@@ -27,7 +29,9 @@
     "dotenv": "16.0.2",
     "vercel": "^28.4.6"
   },
+  "module": "true",
   "private": "true",
-  "author": "Dave Inchy <daveinchy@github.com>",
-  "license": "UNLICENSED"
+  "website": "https://doonline.nl",
+  "author": "Dave Inchy <github.com/daveinchy>",
+  "license": "MIT"
 }

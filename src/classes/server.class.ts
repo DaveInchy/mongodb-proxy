@@ -29,12 +29,13 @@ export default class ProxyServer
         return this;
     }
 
-    loadRoutes(router: Array<[ string, Router ]>) {
+    loadRoutes(router: Array<[string, Router] | { endpoint: string, handler: Router }>) {
         const app: express.Express = this.getApp();
+
 
         // loading all routers
         router.forEach(( value ) => {
-            app.use(value[0], value[1]);
+            app.use(value[0] ? value[0] : value['endpoint'], value[1] ? value[1] : value['handler']);
             console.log(`[${this.package_config.name}]`, `added new router to the '${value[0]}' endpoint. \n`)
         });
 
@@ -47,8 +48,8 @@ export default class ProxyServer
         const app: express.Express = this.getApp();
 
         // setup middleware
-        // app.use(cors());
-        // app.use(express.json());
+        app.use(cors());
+        app.use(express.json());
         app.use(MiddleWare.headers);
         app.use(MiddleWare.logger);
 
@@ -63,7 +64,7 @@ export default class ProxyServer
         if (app !== null && app !== undefined) {
 
             this.setServer(false, http.createServer(app).listen(this.port['HTTP']));
-            this.setServer(true, https.createServer(app).listen(this.port['HTTPS']));
+            // this.setServer(true, https.createServer(app).listen(this.port['HTTPS']));
 
             console.log(`[${this.package_config.name}]`, `listening with port ${this.port['HTTP']} \& port ${this.port['HTTPS']} \@ https://localhost:${this.port['HTTP']}/\n`);
 
