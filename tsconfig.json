@@ -29,8 +29,7 @@
         ],
         "types": [
             "@types/node",
-            "@types/express",
-            "mongodb/types"
+            "@types/express"
         ],
         "allowUmdGlobalAccess": true,
 
