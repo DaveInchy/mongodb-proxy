@@ -1,5 +1,5 @@
 {
-    "database": "global",
+    "database": "master",
     "hostname": "localhost",
     "port": {
         "https": "8080",
