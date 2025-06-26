@@ -1,26 +1,23 @@
-import MongoData from './db.class';
+import SQLData from './db.class';
 
-export default class MongoAPI extends MongoData {
-
-    constructor(database: string, collection: string) {
-        super();
-
-        this.setDatabase(database);
-        this.setCollection(collection);
-
+export default class SQLAPI extends SQLData {
+    constructor(database: string = 'data.sqlite') {
+        super(database);
         return this;
     }
 
-    public getCollection() {
-        return this.collection;
+    // Example: get user by username
+    async getUserByUsername(username: string) {
+        return this.get('SELECT * FROM users WHERE username = ?', [username]);
     }
 
-    public getDatabase() {
-        return this.database;
+    // Example: create user
+    async createUser(username: string, email: string, password: string) {
+        return this.run('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', [username, email, password]);
     }
 
-    public getClient() {
-        return this.client;
+    // Example: get all users
+    async getAllUsers() {
+        return this.all('SELECT * FROM users');
     }
-
 }

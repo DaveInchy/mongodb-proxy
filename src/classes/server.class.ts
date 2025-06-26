@@ -52,6 +52,8 @@ export default class ProxyServer
         app.use(express.json());
         app.use(MiddleWare.headers);
         app.use(MiddleWare.logger);
+        // Add authentication middleware globally if desired:
+        // app.use(MiddleWare.auth);
 
         this.app = app;
 

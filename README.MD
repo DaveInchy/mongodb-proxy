@@ -8,32 +8,64 @@ this project is based on the edge network that mongodb offers with a free tier t
 2. Copy this configuration and paste it in the `.env` file.
 
     ```env
-    MDB_PASS='Password123'
-    MDB_USER='GeneRick'
-    MDB_CLUSTER='clustercore.hz2kdf.mongodb.net'
-    MDB_QUERY='test?retryWrites=true&w=majority'
+    AUTH_KEY=your_static_secret_key
     ```
-
-    You can get the credentials from your atlas edge account on `https://mongodb.com`
 
 3. Run `$ npm i --include=dev && npm run dev;` to install the dependencies and starts the dev server with hot reloading.
 
 <br>
 
-## Models and state management
+# Build Redistributables
+```bash
+npm run build
+```
 
-Im still working on this, but what i want is models to have access to the database and let express handle itself seperatly, also working on state management between the database documents and these models. must find a way to build data schema's with typescripts `type` namespace.
+# Using the api
 
-<br>
+## 1. Key-Value Pair Tables
+### CREATE
+```bash
+curl -X POST http://localhost:8080/api/kv/table/mytable \
+-H "Bearer: <YOUR_AUTH_KEY>"
+```
 
-## Authentication
+### DELETE
+```bash
+curl -X DELETE http://localhost:8080/api/kv/table/mytable \
+-H "Bearer: <YOUR_AUTH_KEY>"
+```
+<hr></hr>
 
-Option 1: MongoDB Atlas OAuth Methods with third-party authentication service's.
+## 2. Key-Value Pairs
+### LIST 
+```bash
+curl -X GET http://localhost:8080/api/kv/mytable \
+-H "Bearer: <YOUR_AUTH_KEY>"
+```
 
-Option 2: Building Authentication from your users collection within the API endpoints as middleware.
+### CREATE
+```bash
+curl -X POST http://localhost:8080/api/kv/mytable/mykey \
+-H "Content-Type: application/json" -H "Bearer: <YOUR_AUTH_KEY>" -d '{"value":"some value"}'
+```
 
-<br>
+### READ
+```bash
+curl -X GET http://localhost:8080/api/kv/mytable/mykey \
+-H "Bearer: <YOUR_AUTH_KEY>"
+```
 
-## Release's
+### UPDATE
+```bash
+curl -X PUT http://localhost:8080/api/kv/mytable/mykey \
+-H "Content-Type: application/json" \
+-H "Bearer: <YOUR_AUTH_KEY>" -d '{"value":"new value"}'
+```
 
-None. This is a private project.
+### DELETE
+```bash
+curl -X DELETE http://localhost:8080/api/kv/mytable/mykey \
+-H "Bearer: <YOUR_AUTH_KEY>"
+```
+
+Signed by Dave.

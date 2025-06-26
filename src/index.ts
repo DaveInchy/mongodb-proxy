@@ -1,6 +1,7 @@
 import Auth from "./routes/auth.route";
 import Database from "./routes/crud.route";
 import Files from "./routes/files.route";
+import KV from "./routes/kv.route";
 import Server from "./classes/server.class";
 import { Router } from "express";
 
@@ -10,6 +11,7 @@ const routes: Array<[ string, Router ] | { endpoint: string, handler: Router }> 
 routes.push(['/static/', Files]);
 routes.push(['/api/database', Database]);
 routes.push(['/api/auth', Auth]);
+routes.push(['/api/kv', KV]);
 
 server.loadMiddleware();
 server.loadRoutes(routes);

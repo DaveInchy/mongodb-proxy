@@ -1,5 +1,4 @@
 import { Request, Response, Router } from 'express';
-import { Document, MongoClient, ObjectId, ReturnDocument } from 'mongodb';
 import MiddleWare from '../classes/middleware.class';
 import MongoAPI from '../classes/api.class';
 
@@ -10,99 +9,57 @@ const router: Router = Router();
 
 router.use(MiddleWare.auth);
 
-router.use('/:collection/:action/:id', async (req: Request, res: Response) => {
-
-    var error: string | undefined = undefined;
+// Example: /api/database/users/list
+router.use('/:collection/:action/:id?', async (req: Request, res: Response) => {
+    let error: string | undefined = undefined;
     let result = {};
-
     try {
-
-        const { params } = req;
-        const { collection, action, id } = params;
-
-        var api = new MongoAPI(
-            decodeURI(config.database.toString()),
-            decodeURI(collection ? collection.toString() : "temp")
-        );
-
-        var col = api.collection;
-
-        if (collection !== null && collection !== undefined && collection !== "") {
-            if (action !== null && action !== undefined && action !== "") {
-                if (id !== null && id !== undefined && id !== "") {
-
-                    let filter = action !== 'create' && action !== 'list' ? { '_id': new ObjectId(id) } : {};
-
-                    switch (action) {
-
-                        case `read`:
-                            result = await col.find(filter).toArray();
-                            if (!result) return;
-                            break;
-
-                        case `update`:
-                            await col.findOneAndUpdate(filter, {
-                                $set: {...req.body}
-                            }).then( data => {
-                                if (!data) return;
-                                error = data.lastErrorObject? data.lastErrorObject.toString() : undefined;
-                                result = { ok: data.ok?.toString(), value: data.value?._id?.toJSON(), error: data.lastErrorObject }
-                            }).catch(err => {
-                                console.error(`[${config_pkg.name}]`, `${action} => ${err}`);
-                                throw new Error(err);
-                            });
-                            break;
-
-                        case `delete`:
-                            await col.findOneAndDelete(filter).then( data => {
-                                if (!data) return;
-                                error = data.lastErrorObject? data.lastErrorObject.toString() : undefined;
-                                result = { ok: data.ok?.toString(), value: data.value?._id?.toJSON(), error: data.lastErrorObject }
-                            }).catch(err => {
-                                console.error(`[${config_pkg.name}]`, `${action} => ${err}`);
-                                throw new Error(err);
-                            });
-                            break;
-
-                        case `create`:
-                            let update = { ...filter, ...req.body };
-                            await col.insertOne(update).then( data => {
-                                if (!data) return;
-                                result = { '_id': data?.insertedId };
-                            }).catch(err => {
-                                console.error(`[${config_pkg.name}]`, `${action} => ${err}`);
-                                throw new Error(err);
-                            });
-                            break;
-
-                        case `list`:
-                            result = await col.find(filter, {
-                                "allowPartialResults": false,
-                            }).toArray();
-                            if (!result) return;
-                            break;
-
-                        default:
-                            error = `Invalid action parameter in request.`;
-                            console.error(`[${config_pkg.name}]`, `${action} => ${error}`);
-                            throw new Error(error);
-                            break;
+        const { params, body } = req;
+        const collection = params['collection'] ? String(params['collection']) : '';
+        const action = params['action'] ? String(params['action']) : '';
+        const id = params['id'] ? String(params['id']) : '';
+        const api = new MongoAPI();
+        await api.init();
+        if (collection && action) {
+            switch (action) {
+                case 'read':
+                    if (id) {
+                        result = await api.get(`SELECT * FROM ${collection} WHERE id = ?`, [id]);
                     }
-                }
+                    break;
+                case 'update':
+                    if (id) {
+                        const fields = Object.keys(body).map(key => `${key} = ?`).join(', ');
+                        const values = Object.values(body);
+                        await api.run(`UPDATE ${collection} SET ${fields} WHERE id = ?`, [...values, id]);
+                        result = { ok: true };
+                    }
+                    break;
+                case 'delete':
+                    if (id) {
+                        await api.run(`DELETE FROM ${collection} WHERE id = ?`, [id]);
+                        result = { ok: true };
+                    }
+                    break;
+                case 'create':
+                    const keys = Object.keys(body).join(', ');
+                    const placeholders = Object.keys(body).map(() => '?').join(', ');
+                    const vals = Object.values(body);
+                    await api.run(`INSERT INTO ${collection} (${keys}) VALUES (${placeholders})`, vals);
+                    result = { ok: true };
+                    break;
+                case 'list':
+                    result = await api.all(`SELECT * FROM ${collection}`);
+                    break;
+                default:
+                    error = `Invalid action parameter in request.`;
+                    break;
             }
         }
-
-        res.status(200)
-        res.json(result);
-        console.log(`[${config_pkg.name}]`, `result: ${JSON.stringify(result?result:undefined)}`);
-
-        api.disconnect();
-
-    } catch(err: string | unknown) {
-        res.status(502);
-        res.send(JSON.stringify({ status: 502, message: err }));
-        console.error(`[${config_pkg.name}]`, `error: ${err}`);
+        res.status(200).json(result);
+    } catch (err) {
+        res.status(502).send(JSON.stringify({ status: 502, message: err instanceof Error ? err.message : String(err) }));
     }
-})
+});
 
 export default router;
